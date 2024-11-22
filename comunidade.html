@@ -1,7 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="refresh" content="0; url=bwepo://comunidade/HLRkC5T0WI6x8r92N2Ff" />
+    <script>
+      // Função para capturar o parâmetro 'id' da URL
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+
+      // Obter o ID da comunidade da URL
+      const communityId = getQueryParam('id');
+
+      // Redirecionar para o deep link apropriado
+      if (communityId) {
+        const deepLink = `bwepo://comunidade/${communityId}`;
+        window.location.href = deepLink;
+      } else {
+        // Caso o ID não seja fornecido, exibir mensagem de erro
+        document.write('<p>Erro: Comunidade não encontrada. Verifique o link.</p>');
+      }
+    </script>
   </head>
   <body>
     <p>Redirecionando para a comunidade...</p>
