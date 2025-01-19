@@ -13,8 +13,7 @@
 
       // Redirecionar para o deep link apropriado
       if (communityId) {
-        // Deep link fixo para o ID especificado
-        const deepLink = 'bwepo://comunidade/5D4DxwVu5VjqHNx1Up8O';
+        const deepLink = `bwepo://comunidade/${communityId}`;
         window.location.href = deepLink;
       } else {
         // Caso o ID não seja fornecido, exibir mensagem de erro
