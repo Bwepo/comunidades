@@ -1,27 +1,43 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8" />
+    <title>Redirecionando para o app...</title>
     <script>
-      // Função para capturar o parâmetro 'id' da URL
       function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
       }
 
-      // Obter o ID da comunidade da URL
       const communityId = getQueryParam('id');
 
-      // Redirecionar para o deep link apropriado
       if (communityId) {
-        const deepLink = `bwepo://comunidade/${communityId}`;
+        const deepLink = `bwepo://infocomunidades/${communityId}`;
+        const androidStore = 'https://play.google.com/store/apps/details?id=com.matheusener.bwepo';
+        const iosStore = 'https://apps.apple.com/app/id0000000000'; // substitua pelo ID real do app
+
+        const isAndroid = /android/i.test(navigator.userAgent);
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        // Abre o deep link
         window.location.href = deepLink;
+
+        // Se não tiver o app instalado, redireciona para a loja após 2 segundos
+        setTimeout(() => {
+          if (isAndroid) {
+            window.location.href = androidStore;
+          } else if (isIOS) {
+            window.location.href = iosStore;
+          } else {
+            document.body.innerHTML = "<p>Por favor, abra este link em um dispositivo móvel.</p>";
+          }
+        }, 2000);
       } else {
-        // Caso o ID não seja fornecido, exibir mensagem de erro
         document.write('<p>Erro: Comunidade não encontrada. Verifique o link.</p>');
       }
     </script>
   </head>
   <body>
-    <p>Redirecionando para a comunidade...</p>
+    <p>Redirecionando para a comunidade no app...</p>
   </body>
 </html>
