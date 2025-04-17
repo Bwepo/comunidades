@@ -14,24 +14,30 @@
       if (communityId) {
         const deepLink = `bwepo://infocomunidades/${communityId}`;
         const androidStore = 'https://play.google.com/store/apps/details?id=com.matheusener.bwepo';
-        const iosStore = 'https://apps.apple.com/us/app/bwepo/id6743187782'; 
+        const iosStore = 'https://apps.apple.com/br/app/bwepo/id6743187782';
 
         const isAndroid = /android/i.test(navigator.userAgent);
         const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-        // Abre o deep link
-        window.location.href = deepLink;
-
-        // Se não tiver o app instalado, redireciona para a loja após 2 segundos
-        setTimeout(() => {
-          if (isAndroid) {
+        if (isAndroid) {
+          // Android pode redirecionar direto
+          window.location.href = deepLink;
+          setTimeout(() => {
             window.location.href = androidStore;
-          } else if (isIOS) {
+          }, 2000);
+        } else if (isIOS) {
+          // iOS: tenta abrir via iframe (para contornar o bloqueio)
+          const iframe = document.createElement('iframe');
+          iframe.style.display = 'none';
+          iframe.src = deepLink;
+          document.body.appendChild(iframe);
+
+          setTimeout(() => {
             window.location.href = iosStore;
-          } else {
-            document.body.innerHTML = "<p>Por favor, abra este link em um dispositivo móvel.</p>";
-          }
-        }, 2000);
+          }, 2000);
+        } else {
+          document.body.innerHTML = "<p>Por favor, abra este link em um dispositivo móvel.</p>";
+        }
       } else {
         document.write('<p>Erro: Comunidade não encontrada. Verifique o link.</p>');
       }
